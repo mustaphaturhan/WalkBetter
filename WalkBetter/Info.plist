@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need continuous access to your location for better route planning.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>WalkBetter needs your location to add it as a starting point or destination in your walking routes.</string>
+</dict>
+</plist>
