@@ -123,5 +123,9 @@ Mustafa Turhan - [@mustaphaturhan](https://twitter.com/mustaphaturhan)
   </tr>
 </table>
 
+# Become a tester
+
+This application is in test phase at the moment. If you want to be a tester, you can download the application from [here](https://testflight.apple.com/join/b4HuxBFh).
+
 ---
 Made with ❤️ using SwiftUI and AI.
