@@ -2,27 +2,43 @@ import SwiftUI
 
 struct LocationChip: View {
     let location: Location
+    var showIcon: Bool = true
 
     var body: some View {
-        HStack(spacing: 4) {
-            Image(systemName: "mappin.circle.fill")
-                .font(.caption)
-                .foregroundStyle(.blue)
+        HStack(spacing: 6) {
+            if showIcon {
+                ZStack {
+                    Circle()
+                        .fill(Color.blue.opacity(0.15))
+                        .frame(width: 24, height: 24)
+
+                    Image(systemName: "mappin.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(.blue)
+                }
+            }
+
             Text(location.name)
                 .font(.caption)
+                .fontWeight(.medium)
                 .lineLimit(1)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
+        .padding(.horizontal, 10)
         .background(
             Capsule()
-                .fill(Color.blue.opacity(0.1))
+                .fill(Color(.systemGray6))
         )
     }
 }
 
 #Preview("Single Location") {
     LocationChip(location: Location(name: "Grand Place", latitude: 50.8467, longitude: 4.3499))
+        .padding()
+}
+
+#Preview("Without Icon") {
+    LocationChip(location: Location(name: "Grand Place", latitude: 50.8467, longitude: 4.3499), showIcon: false)
         .padding()
 }
 
@@ -36,4 +52,10 @@ struct LocationChip: View {
         }
     }
     .padding()
+}
+
+#Preview("Dark Mode") {
+    LocationChip(location: Location(name: "Grand Place", latitude: 50.8467, longitude: 4.3499))
+        .padding()
+        .preferredColorScheme(.dark)
 }

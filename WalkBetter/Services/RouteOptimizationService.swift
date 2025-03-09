@@ -74,34 +74,33 @@ enum RouteOptimizationService {
         Logger.info("Original order: \(formatLocationOrder(locations))")
 
         // Perform optimization
-        RouteService.fetchOptimizedRoute(locations: locations) { reorderedLocations, routeCoordinates, statistics in
-            if let reorderedLocations = reorderedLocations,
-               let routeCoordinates = routeCoordinates,
-               let statistics = statistics {
-
+        RouteService.fetchOptimizedRoute(locations: locations) { result in
+            switch result {
+            case .success(let routeData):
                 // Validate optimization result
                 guard validateOptimizationResult(
                     original: locations,
-                    optimized: reorderedLocations,
-                    coordinates: routeCoordinates
+                    optimized: routeData.optimizedLocations,
+                    coordinates: routeData.routeCoordinates
                 ) else {
                     Logger.error("Invalid optimization result")
                     completion(.failure(OptimizationError.invalidRouteData))
                     return
                 }
 
-                Logger.info("Reordered locations: \(formatLocationOrder(reorderedLocations))")
-                logRouteStatistics(statistics)
+                Logger.info("Reordered locations: \(formatLocationOrder(routeData.optimizedLocations))")
+                logRouteStatistics(routeData.statistics)
 
                 let result = RouteResult(
-                    optimizedLocations: reorderedLocations,
-                    routeCoordinates: routeCoordinates,
-                    statistics: statistics
+                    optimizedLocations: routeData.optimizedLocations,
+                    routeCoordinates: routeData.routeCoordinates,
+                    statistics: routeData.statistics
                 )
                 completion(.success(result))
-            } else {
-                Logger.error("Route optimization failed")
-                completion(.failure(OptimizationError.optimizationFailed))
+
+            case .failure(let error):
+                Logger.error("Route optimization failed: \(error.localizedDescription)")
+                completion(.failure(error))
             }
         }
     }

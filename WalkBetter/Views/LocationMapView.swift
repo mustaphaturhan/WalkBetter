@@ -166,18 +166,17 @@ struct LocationMapView: View {
             print("🔄 No cached route found, calculating new route")
         }
 
-        RouteService.fetchOptimizedRoute(locations: sortedLocations) { optimizedLocations, routeCoordinates, statistics in
+        RouteService.fetchOptimizedRoute(locations: sortedLocations) { result in
             DispatchQueue.main.async {
-                if let routeCoordinates = routeCoordinates {
-                    print("✅ Route loaded with \(routeCoordinates.count) coordinates")
+                switch result {
+                case .success(let routeData):
+                    print("✅ Route loaded with \(routeData.routeCoordinates.count) coordinates")
                     withAnimation {
-                        self.route = routeCoordinates
-                        if let statistics = statistics {
-                            self.totalDistance = statistics.totalDistance
-                        }
+                        self.route = routeData.routeCoordinates
+                        self.totalDistance = routeData.statistics.totalDistance
                     }
-                } else {
-                    print("❌ Failed to load route coordinates")
+                case .failure(let error):
+                    print("❌ Failed to load route coordinates: \(error.localizedDescription)")
                 }
             }
         }
